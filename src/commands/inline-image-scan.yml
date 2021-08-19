@@ -41,7 +41,7 @@ parameters:
     type: string
     default: pull
   input-path:
-    description: Path to the docker socket, tar file or OCI layout directory.
+    description: Path to the docker socket, tar file or OCI layout directory. It must be an absolute path.
     type: string
     default: ""
   run-as-user:
