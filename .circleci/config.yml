@@ -45,21 +45,6 @@ jobs:
           sysdig-secure-token: ${SECURE_API_TOKEN}
           input-type: docker-daemon
 
-  test-inline-image-from-docker-archive:
-    docker:
-      - image: cimg/base:stable
-    steps:
-      - checkout
-      - setup_remote_docker
-      - run: docker pull alpine:latest
-      - run: docker save alpine:latest -o /tmp/alpine-image.tar
-      - run: docker run --rm -it -v /tmp:/tmp alpine ls -al /tmp
-      - sysdig/inline-image-scan:
-          image-tag: image-scanned-from-archive:some-tag
-          sysdig-secure-token: ${SECURE_API_TOKEN}
-          input-type: docker-archive
-          input-path: /tmp/alpine-image.tar
-
 workflows:
   # Prior to producing a development orb (which requires credentials) basic validation, linting, and even unit testing can be performed.
   # This workflow will run on every commit
@@ -94,8 +79,6 @@ workflows:
       - test-minimal-usage:
           context: orb-publishing
       - test-inline-image-created:
-          context: orb-publishing
-      - test-inline-image-from-docker-archive:
           context: orb-publishing
       # Publish a semver version of the orb. relies on
       # the commit subject containing the text "[semver:patch|minor|major|skip]"
