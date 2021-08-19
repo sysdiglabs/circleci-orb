@@ -124,7 +124,7 @@ steps:
               -e SYSDIG_API_TOKEN=<<parameters.sysdig-secure-token>>
               <<#parameters.dockerfile-path>>-v <<parameters.dockerfile-path>>:/tmp/Dockerfile<</parameters.dockerfile-path>>
               <<#parameters.run-as-user>>-u <<parameters.run-as-user>><</parameters.run-as-user>>
-              <<#parameters.input-path>>-v <<parameters.input-path>>:/tmp/file_to_scan<</parameters.input-path>>
+              <<#parameters.input-path>>-v <<parameters.input-path>>:/tmp/$(basename <<parameters.input-path>>)<</parameters.input-path>>
               <<#parameters.extra-docker-parameters>><<parameters.extra-docker-parameters>><</parameters.extra-docker-parameters>>
               <<parameters.secure-inline-scan-image>>
               --sysdig-url <<parameters.sysdig-secure-url>>
@@ -132,6 +132,6 @@ steps:
               <<#parameters.sysdig-skip-tls>>--sysdig-skip-tls<</parameters.sysdig-skip-tls>>
               <<#parameters.extra-parameters>><<parameters.extra-parameters>><</parameters.extra-parameters>>
               --storage-type=<<parameters.input-type>>
-              --storage-path=/tmp/file_to_scan
+              <<#parameters.input-path>>--storage-path=/tmp/$(basename <<parameters.input-path>>)<</parameters.input-path>>
               <<parameters.image-tag>>
               <<#parameters.ignore-failed-scan>> || true <</parameters.ignore-failed-scan>>
