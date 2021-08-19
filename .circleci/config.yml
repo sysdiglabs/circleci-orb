@@ -27,9 +27,23 @@ jobs:
       - image: cimg/base:stable
     steps:
       - checkout
+      - setup_remote_docker
       - sysdig/inline-image-scan:
           image-tag: alpine:latest
           sysdig-secure-token: ${SECURE_API_TOKEN}
+
+  test-inline-image-created:
+    docker:
+      - image: cimg/base:stable
+    steps:
+      - checkout
+      - setup_remote_docker
+      - run: docker pull alpine:latest
+      - run: docker tag alpine:latest image-just-being-created:some-tag
+      - sysdig/inline-image-scan:
+          image-tag: image-just-being-created:some-tag
+          sysdig-secure-token: ${SECURE_API_TOKEN}
+          input-type: docker-daemon
 
 workflows:
   # Prior to producing a development orb (which requires credentials) basic validation, linting, and even unit testing can be performed.
@@ -62,7 +76,10 @@ workflows:
     when: << pipeline.parameters.run-integration-tests >>
     jobs:
       # Run any integration tests defined within the `jobs` key.
-      - test-minimal-usage
+      - test-minimal-usage:
+          context: orb-publishing
+      - test-inline-image-created:
+          context: orb-publishing
       # Publish a semver version of the orb. relies on
       # the commit subject containing the text "[semver:patch|minor|major|skip]"
       # as that will determine whether a patch, minor or major
