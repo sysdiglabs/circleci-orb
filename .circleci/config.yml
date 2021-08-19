@@ -27,9 +27,9 @@ jobs:
       - image: cimg/base:stable
     steps:
       - checkout
-      - sysdig/inline-image-scan:
-          image-tag: alpine:latest
-          sysdig-secure-token: ${SECURE_API_TOKEN}
+#      - sysdig/inline-image-scan:
+#          image-tag: alpine:latest
+#          sysdig-secure-token: ${SECURE_API_TOKEN}
 
 workflows:
   # Prior to producing a development orb (which requires credentials) basic validation, linting, and even unit testing can be performed.
