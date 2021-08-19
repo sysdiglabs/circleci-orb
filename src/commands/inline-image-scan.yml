@@ -64,7 +64,7 @@ parameters:
     default: quay.io/sysdig/secure-inline-scan:2
 
 steps:
-  - pull-scan-image:
+  - run:
       name: "Pull Secure Inline Scan image"
       command: docker pull <<parameters.secure-inline-scan-image>>
 
@@ -81,8 +81,8 @@ steps:
             <<parameters.secure-inline-scan-image>>
             --format=JSON
             --sysdig-url <<parameters.sysdig-secure-url>>
-            <<#parameters.dockerfile-path>--dockerfile=/tmp/Dockerfile<</parameters.dockerfile-path>>
+            <<#parameters.dockerfile-path>>--dockerfile=/tmp/Dockerfile<</parameters.dockerfile-path>>
             <<#parameters.sysdig-skip-tls>>--sysdig-skip-tls<</parameters.sysdig-skip-tls>>
             <<#parameters.extra-parameters>><<parameters.extra-parameters>><</parameters.extra-parameters>>
             <<parameters.image-tag>>
-            <<^parameters.ignore-failed-scan>> || true </parameters.ignore-failed-scan>>
+            <<^parameters.ignore-failed-scan>> || true <</parameters.ignore-failed-scan>>
