@@ -38,8 +38,8 @@ jobs:
     steps:
       - checkout
       - setup_remote_docker
-      - docker pull alpine:latest
-      - docker tag alpine:latest image-just-being-created:some-tag
+      - run: docker pull alpine:latest
+      - run: docker tag alpine:latest image-just-being-created:some-tag
       - sysdig/inline-image-scan:
           image-tag: image-just-being-created:some-tag
           sysdig-secure-token: ${SECURE_API_TOKEN}
