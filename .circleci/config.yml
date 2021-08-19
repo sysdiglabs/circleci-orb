@@ -53,6 +53,7 @@ jobs:
       - setup_remote_docker
       - run: docker pull alpine:latest
       - run: docker save alpine:latest -o /tmp/alpine-image.tar
+      - run: docker run --rm -it -v /tmp:/tmp alpine ls -al /tmp
       - sysdig/inline-image-scan:
           image-tag: image-scanned-from-archive:some-tag
           sysdig-secure-token: ${SECURE_API_TOKEN}
