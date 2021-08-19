@@ -1,6 +1,6 @@
 # Orb Project Template
 
-[![CircleCI Build Status](https://circleci.com/gh/sysdiglabs/circleci-orb.svg?style=shield "CircleCI Build Status")](https://circleci.com/gh/sysdiglabs/circleci-orb) [![CircleCI Orb Version](https://badges.circleci.com/orbs/sysdig/sysdig.svg)](https://circleci.com/orbs/registry/orb/sysdig/sysdig) [![GitHub License](https://img.shields.io/badge/license-MIT-lightgrey.svg)](https://raw.githubusercontent.com/sysdiglabs/circleci-orb/master/LICENSE) [![CircleCI Community](https://img.shields.io/badge/community-CircleCI%20Discuss-343434.svg)](https://discuss.circleci.com/c/ecosystem/orbs)
+[![CircleCI](https://circleci.com/gh/sysdiglabs/circleci-orb/tree/master.svg?style=svg&circle-token=ee4513ae7ef9a233edd5c59f434bb58d08393c61)](https://circleci.com/gh/sysdiglabs/circleci-orb/tree/master) [![CircleCI Orb Version](https://badges.circleci.com/orbs/sysdig/sysdig.svg)](https://circleci.com/orbs/registry/orb/sysdig/sysdig) [![GitHub License](https://img.shields.io/badge/license-MIT-lightgrey.svg)](https://raw.githubusercontent.com/sysdiglabs/circleci-orb/master/LICENSE)
 
 
 
