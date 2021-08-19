@@ -1,0 +1,8 @@
+repos:
+  - repo: local
+    hooks:
+      - id: validate
+        name: Validate Orb
+        entry: ./scripts/validate.sh
+        language: script
+        files: src/*
