@@ -1,0 +1,88 @@
+description: >
+  Scan your docker images for vulnerabilities
+parameters:
+  image-tag:
+    description: Tag of the image to analyse.
+    type: string
+  sysdig-secure-token:
+    description: API token for Sysdig Scanning auth.
+    type: string
+  sysdig-secure-url:
+    description: 'Sysdig Secure URL (ex: "https://secure-sysdig.com").'
+    type: string
+    default: "https://secure.sysdig.com"
+  sysdig-skip-tls:
+    description: Skip TLS verification when calling secure endpoints.
+    type: boolean
+    default: false
+  dockerfile-path:
+    description: 'Path to Dockerfile (ex: "./Dockerfile").'
+    type: string
+    default: ""
+  ignore-failed-scan:
+    description: Don't fail the execution of this action even if the scan result is FAILED.
+    type: boolean
+    default: false
+  input-type:
+    description: |
+      If specified, where should we scan the image from. Possible values:
+        pull            Pull the image from the registry.
+                        Default if not specified.
+        docker-daemon   Get the image from the Docker daemon.
+                        The docker socket must be available at /var/run/docker.sock
+        cri-o           Get the image from containers-storage (CRI-O and others).
+                        Images must be stored in /var/lib/containers
+        docker-archive  Image is provided as a Docker .tar file (from docker save).
+                        Specify path to the tar file with 'input-path'
+        oci-archive     Image is provided as a OCI image tar file.
+                        Specify path to the tar file with 'input-path'
+        oci-dir         Image is provided as a OCI image, untared.
+                        Specify path to the directory file with 'input-path'
+    type: string
+    default: pull
+  input-path:
+    description: Path to the tar file or OCI layout directory.
+    type: string
+    default: ""
+  run-as-user:
+    description: |
+      Run the scan container with this username or UID.
+      It might required if scanning from docker-daemon or cri-o to provide a user with permissions on the socket or storage.
+    type: string
+    default: ""
+  extra-parameters:
+    description: Additional parameters added to the secure-inline-scan container execution.
+    type: string
+    default: ""
+  extra-docker-parameters:
+    description: Additional parameters added to the docker command when executing the secure-inline-scan container execution.
+    type: string
+    default: ""
+  secure-inline-scan-image:
+    description: Sysdig Secure Inline Scan image service
+    type: string
+    default: quay.io/sysdig/secure-inline-scan:2
+
+steps:
+  - pull-scan-image:
+      name: "Pull Secure Inline Scan image"
+      command: docker pull <<parameters.secure-inline-scan-image>>
+
+  - when:
+      condition:
+        equal: [ <<parameters.input-type>>, "pull" ]
+      steps:
+        - run: >
+            docker run -ti --rm
+            -e SYSDIG_API_TOKEN=<<parameters.sysdig-secure-token>>
+            <<#parameters.dockerfile-path>>-v <<parameters.dockerfile-path>>:/tmp/Dockerfile<</parameters.dockerfile-path>>
+            <<#parameters.run-as-user>>-u <<parameters.run-as-user>><</parameters.run-as-user>>
+            <<#parameters.extra-docker-parameters>><<parameters.extra-docker-parameters>><</parameters.extra-docker-parameters>>
+            <<parameters.secure-inline-scan-image>>
+            --format=JSON
+            --sysdig-url <<parameters.sysdig-secure-url>>
+            <<#parameters.dockerfile-path>--dockerfile=/tmp/Dockerfile<</parameters.dockerfile-path>>
+            <<#parameters.sysdig-skip-tls>>--sysdig-skip-tls<</parameters.sysdig-skip-tls>>
+            <<#parameters.extra-parameters>><<parameters.extra-parameters>><</parameters.extra-parameters>>
+            <<parameters.image-tag>>
+            <<^parameters.ignore-failed-scan>> || true </parameters.ignore-failed-scan>>
