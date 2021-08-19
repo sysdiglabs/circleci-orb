@@ -27,6 +27,7 @@ jobs:
       - image: cimg/base:stable
     steps:
       - checkout
+      - setup_remote_docker
       - sysdig/inline-image-scan:
           image-tag: alpine:latest
           sysdig-secure-token: ${SECURE_API_TOKEN}
