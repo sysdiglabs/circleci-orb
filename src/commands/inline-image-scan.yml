@@ -85,4 +85,4 @@ steps:
             <<#parameters.sysdig-skip-tls>>--sysdig-skip-tls<</parameters.sysdig-skip-tls>>
             <<#parameters.extra-parameters>><<parameters.extra-parameters>><</parameters.extra-parameters>>
             <<parameters.image-tag>>
-            <<^parameters.ignore-failed-scan>> || true <</parameters.ignore-failed-scan>>
+            <<#parameters.ignore-failed-scan>> || true <</parameters.ignore-failed-scan>>
