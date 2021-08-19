@@ -32,8 +32,6 @@ parameters:
                         The docker socket must be available.
                         The default path is /var/run/docker.sock, but can be configured
                         setting up the 'input-path'.
-        cri-o           Get the image from containers-storage (CRI-O and others).
-                        Images must be stored in /var/lib/containers
         docker-archive  Image is provided as a Docker .tar file (from docker save).
                         Specify path to the tar file with 'input-path'
         oci-archive     Image is provided as a OCI image tar file.
@@ -75,7 +73,7 @@ steps:
         equal: [ <<parameters.input-type>>, "pull" ]
       steps:
         - run:
-            name: Execute Secure Inline Scan image
+            name: 'Execute Secure Inline Scan image (mode: "<<parameters.input-type>>")'
             command: >
               docker run -ti --rm
               -e SYSDIG_API_TOKEN=<<parameters.sysdig-secure-token>>
@@ -95,7 +93,7 @@ steps:
         equal: [ <<parameters.input-type>>, "docker-daemon" ]
       steps:
         - run:
-            name: Execute Secure Inline Scan image
+            name: 'Execute Secure Inline Scan image (mode: "<<parameters.input-type>>")'
             command: >
               docker run -ti --rm
               -e SYSDIG_API_TOKEN=<<parameters.sysdig-secure-token>>
@@ -110,5 +108,30 @@ steps:
               <<#parameters.sysdig-skip-tls>>--sysdig-skip-tls<</parameters.sysdig-skip-tls>>
               <<#parameters.extra-parameters>><<parameters.extra-parameters>><</parameters.extra-parameters>>
               --storage-type=<<parameters.input-type>>
+              <<parameters.image-tag>>
+              <<#parameters.ignore-failed-scan>> || true <</parameters.ignore-failed-scan>>
+  - when:
+      condition:
+        not:
+          or:
+            - equal: [ <<parameters.input-type>>, "docker-daemon" ]
+            - equal: [ <<parameters.input-type>>, "pull" ]
+      steps:
+        - run:
+            name: 'Execute Secure Inline Scan image (mode: "<<parameters.input-type>>")'
+            command: >
+              docker run -ti --rm
+              -e SYSDIG_API_TOKEN=<<parameters.sysdig-secure-token>>
+              <<#parameters.dockerfile-path>>-v <<parameters.dockerfile-path>>:/tmp/Dockerfile<</parameters.dockerfile-path>>
+              <<#parameters.run-as-user>>-u <<parameters.run-as-user>><</parameters.run-as-user>>
+              <<#parameters.input-path>>-v <<parameters.input-path>>:/tmp/file_to_scan<</parameters.input-path>>
+              <<#parameters.extra-docker-parameters>><<parameters.extra-docker-parameters>><</parameters.extra-docker-parameters>>
+              <<parameters.secure-inline-scan-image>>
+              --sysdig-url <<parameters.sysdig-secure-url>>
+              <<#parameters.dockerfile-path>>--dockerfile=/tmp/Dockerfile<</parameters.dockerfile-path>>
+              <<#parameters.sysdig-skip-tls>>--sysdig-skip-tls<</parameters.sysdig-skip-tls>>
+              <<#parameters.extra-parameters>><<parameters.extra-parameters>><</parameters.extra-parameters>>
+              --storage-type=<<parameters.input-type>>
+              --storage-path=/tmp/file_to_scan
               <<parameters.image-tag>>
               <<#parameters.ignore-failed-scan>> || true <</parameters.ignore-failed-scan>>
