@@ -1,0 +1,23 @@
+description: Build and scan in the same pipeline
+usage:
+  version: 2.1
+
+  orbs:
+    sysdig: sysdig/sysdig@x.y.z
+
+  jobs:
+    build-and-scan:
+      environment:
+        IMAGE_TO_BUILD: myrepo/myapp:tag
+      docker:
+        - image: cimg/base:stable
+      steps:
+        - checkout
+        - setup_remote_docker
+        - run:
+            name: Build Docker image
+            command: docker build -t ${IMAGE_TO_BUILD} .
+        - sysdig/inline-image-scan:
+            image-tag: ${IMAGE_TO_BUILD}
+            sysdig-secure-token: ${SECURE_API_TOKEN}
+            input-type: docker-daemon
