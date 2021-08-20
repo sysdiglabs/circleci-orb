@@ -1,5 +1,3 @@
-# Orb Project Template
-
 [![CircleCI Build Status](https://circleci.com/gh/sysdiglabs/circleci-orb/tree/master.svg?style=svg&circle-token=ee4513ae7ef9a233edd5c59f434bb58d08393c61)](https://circleci.com/gh/sysdiglabs/circleci-orb) [![CircleCI Orb Version](https://badges.circleci.com/orbs/sysdig/sysdig.svg)](https://circleci.com/orbs/registry/orb/sysdig/sysdig) [![GitHub License](https://img.shields.io/badge/license-MIT-green.svg)](https://raw.githubusercontent.com/sysdiglabs/circleci-orb/master/LICENSE)
 
 # Sysdig Orb for CircleCI
