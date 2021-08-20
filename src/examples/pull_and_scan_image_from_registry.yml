@@ -1,0 +1,19 @@
+description: Pull and scan image from a existing registry
+usage:
+  version: 2.1
+
+  orbs:
+    sysdig: sysdig/sysdig@x.y.z
+
+  jobs:
+    scan-image-from-registry:
+      environment:
+        IMAGE_TO_PULL_AND_SCAN: myrepo/myapp:tag
+      docker:
+        - image: cimg/base:stable
+      steps:
+        - setup_remote_docker
+        - sysdig/inline-image-scan:
+            image-tag: ${IMAGE_TO_PULL_AND_SCAN}
+            sysdig-secure-token: ${SECURE_API_TOKEN}
+            input-type: pull # default, can be omitted

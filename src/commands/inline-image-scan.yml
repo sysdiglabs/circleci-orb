@@ -15,12 +15,8 @@ parameters:
     description: Skip TLS verification when calling secure endpoints.
     type: boolean
     default: false
-  dockerfile-path:
-    description: 'Path to Dockerfile (ex: "./Dockerfile").'
-    type: string
-    default: ""
   ignore-failed-scan:
-    description: Don't fail the execution of this action even if the scan result is FAILED.
+    description: Don't fail the execution of this workflow even if the scan result is FAILED.
     type: boolean
     default: false
   input-type:
@@ -71,12 +67,10 @@ steps:
             command: >
               docker run -ti --rm
               -e SYSDIG_API_TOKEN=<<parameters.sysdig-secure-token>>
-              <<#parameters.dockerfile-path>>-v <<parameters.dockerfile-path>>:/tmp/Dockerfile<</parameters.dockerfile-path>>
               <<#parameters.run-as-user>>-u <<parameters.run-as-user>><</parameters.run-as-user>>
               <<#parameters.extra-docker-parameters>><<parameters.extra-docker-parameters>><</parameters.extra-docker-parameters>>
               <<parameters.secure-inline-scan-image>>
               --sysdig-url <<parameters.sysdig-secure-url>>
-              <<#parameters.dockerfile-path>>--dockerfile=/tmp/Dockerfile<</parameters.dockerfile-path>>
               <<#parameters.sysdig-skip-tls>>--sysdig-skip-tls<</parameters.sysdig-skip-tls>>
               <<#parameters.extra-parameters>><<parameters.extra-parameters>><</parameters.extra-parameters>>
               <<parameters.image-tag>>
@@ -91,14 +85,12 @@ steps:
             command: >
               docker run -ti --rm
               -e SYSDIG_API_TOKEN=<<parameters.sysdig-secure-token>>
-              <<#parameters.dockerfile-path>>-v <<parameters.dockerfile-path>>:/tmp/Dockerfile<</parameters.dockerfile-path>>
               <<#parameters.run-as-user>>-u <<parameters.run-as-user>><</parameters.run-as-user>>
               <<#parameters.input-path>>-v <<parameters.input-path>>:/var/run/docker.sock<</parameters.input-path>>
               <<^parameters.input-path>>-v /var/run/docker.sock:/var/run/docker.sock<</parameters.input-path>>
               <<#parameters.extra-docker-parameters>><<parameters.extra-docker-parameters>><</parameters.extra-docker-parameters>>
               <<parameters.secure-inline-scan-image>>
               --sysdig-url <<parameters.sysdig-secure-url>>
-              <<#parameters.dockerfile-path>>--dockerfile=/tmp/Dockerfile<</parameters.dockerfile-path>>
               <<#parameters.sysdig-skip-tls>>--sysdig-skip-tls<</parameters.sysdig-skip-tls>>
               <<#parameters.extra-parameters>><<parameters.extra-parameters>><</parameters.extra-parameters>>
               --storage-type=<<parameters.input-type>>
