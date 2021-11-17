@@ -6,7 +6,8 @@ parameters:
     type: string
   sysdig-secure-token:
     description: API token for Sysdig Scanning auth.
-    type: string
+    type: env_var_name
+    default: SYSDIG_SECURE_TOKEN
   sysdig-secure-url:
     description: 'Sysdig Secure URL (ex: "https://secure-sysdig.com").'
     type: string
