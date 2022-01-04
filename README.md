@@ -52,7 +52,7 @@ jobs:
       - setup_remote_docker
       - sysdig/inline-image-scan:
           image-tag: ${IMAGE_TO_PULL_AND_SCAN}
-          sysdig-secure-token: ${SECURE_API_TOKEN}
+          sysdig-secure-token: SECURE_API_TOKEN
           input-type: pull # default, can be omitted
 ```
 
@@ -78,7 +78,7 @@ jobs:
           command: docker build -t ${IMAGE_TO_BUILD} .
       - sysdig/inline-image-scan:
           image-tag: ${IMAGE_TO_BUILD}
-          sysdig-secure-token: ${SECURE_API_TOKEN}
+          sysdig-secure-token: SECURE_API_TOKEN
           input-type: docker-daemon
 ```
 
@@ -105,7 +105,7 @@ jobs:
       - sysdig/inline-image-scan:
           image-tag: ${IMAGE_TO_BUILD}
           input-type: docker-daemon
-          sysdig-secure-token: ${SECURE_API_TOKEN}
+          sysdig-secure-token: SECURE_API_TOKEN
           sysdig-secure-url: ${SECURE_API_URL} # Configure this for on-prem instances
           sysdig-skip-tls: true # Skip TLS verification when calling Secure endpoints. Use it only for on-prem instances with self-signed certificates.
           ignore-failed-scan: false # Set to true if you don't want the pipeline to fail
