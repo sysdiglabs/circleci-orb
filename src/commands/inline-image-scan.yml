@@ -6,7 +6,8 @@ parameters:
     type: string
   sysdig-secure-token:
     description: API token for Sysdig Scanning auth.
-    type: string
+    type: env_var_name
+    default: SYSDIG_SECURE_TOKEN
   sysdig-secure-url:
     description: 'Sysdig Secure URL (ex: "https://secure-sysdig.com").'
     type: string
@@ -66,7 +67,7 @@ steps:
             name: 'Execute Secure Inline Scan image (mode: "<<parameters.input-type>>")'
             command: >
               docker run -ti --rm
-              -e SYSDIG_API_TOKEN=<<parameters.sysdig-secure-token>>
+              -e SYSDIG_API_TOKEN=${<<parameters.sysdig-secure-token>>}
               <<#parameters.run-as-user>>-u <<parameters.run-as-user>><</parameters.run-as-user>>
               <<#parameters.extra-docker-parameters>><<parameters.extra-docker-parameters>><</parameters.extra-docker-parameters>>
               <<parameters.secure-inline-scan-image>>
@@ -84,7 +85,7 @@ steps:
             name: 'Execute Secure Inline Scan image (mode: "<<parameters.input-type>>")'
             command: >
               docker run -ti --rm
-              -e SYSDIG_API_TOKEN=<<parameters.sysdig-secure-token>>
+              -e SYSDIG_API_TOKEN=${<<parameters.sysdig-secure-token>>}
               <<#parameters.run-as-user>>-u <<parameters.run-as-user>><</parameters.run-as-user>>
               <<#parameters.input-path>>-v <<parameters.input-path>>:/var/run/docker.sock<</parameters.input-path>>
               <<^parameters.input-path>>-v /var/run/docker.sock:/var/run/docker.sock<</parameters.input-path>>
