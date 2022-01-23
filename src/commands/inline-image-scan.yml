@@ -59,8 +59,8 @@ steps:
       name: "Pull Secure Inline Scan image"
       command: docker pull <<parameters.secure-inline-scan-image>>
 
-  - setup_remote_docker:
-      version: 19.03.13
+ # - setup_remote_docker:
+ #     version: 19.03.13
 
   - when:
       condition:
