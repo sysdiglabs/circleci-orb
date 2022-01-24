@@ -52,7 +52,7 @@ parameters:
   secure-inline-scan-image:
     description: Sysdig Secure Inline Scan image service
     type: string
-    default: quay.io/sysdig/secure-inline-scan:2
+    default: quay.io/sysdig/secure-inline-scan:2.4.5
 
 steps:
   - run:
