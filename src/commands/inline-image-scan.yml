@@ -57,7 +57,7 @@ parameters:
 steps:
   - run:
       name: "Pull Secure Inline Scan image"
-      command: docker pull <<parameters.secure-inline-scan-image>>      
+      command: docker pull <<parameters.secure-inline-scan-image>>
   - when:
       condition:
         equal: [ <<parameters.input-type>>, "pull" ]
