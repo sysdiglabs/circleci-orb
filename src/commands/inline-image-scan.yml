@@ -52,7 +52,7 @@ parameters:
   secure-inline-scan-image:
     description: Sysdig Secure Inline Scan image service
     type: string
-    default: quay.io/sysdig/secure-inline-scan:2.4.5
+    default: quay.io/sysdig/secure-inline-scan:2
 
 steps:
   - run:
@@ -69,7 +69,7 @@ steps:
               -e SYSDIG_API_TOKEN=${<<parameters.sysdig-secure-token>>}
               <<#parameters.run-as-user>>-u <<parameters.run-as-user>><</parameters.run-as-user>>
               <<#parameters.extra-docker-parameters>><<parameters.extra-docker-parameters>><</parameters.extra-docker-parameters>>
-              <<parameters.secure-inline-scan-image>>
+              <<parameters.secure-inline-scan-image>> -v
               --sysdig-url <<parameters.sysdig-secure-url>>
               <<#parameters.sysdig-skip-tls>>--sysdig-skip-tls<</parameters.sysdig-skip-tls>>
               <<#parameters.extra-parameters>><<parameters.extra-parameters>><</parameters.extra-parameters>>
@@ -88,7 +88,7 @@ steps:
               <<#parameters.input-path>>-v <<parameters.input-path>>:/var/run/docker.sock<</parameters.input-path>>
               <<^parameters.input-path>>-v /var/run/docker.sock:/var/run/docker.sock<</parameters.input-path>>
               <<#parameters.extra-docker-parameters>><<parameters.extra-docker-parameters>><</parameters.extra-docker-parameters>>
-              <<parameters.secure-inline-scan-image>>
+              <<parameters.secure-inline-scan-image>> -v
               --sysdig-url <<parameters.sysdig-secure-url>>
               <<#parameters.sysdig-skip-tls>>--sysdig-skip-tls<</parameters.sysdig-skip-tls>>
               <<#parameters.extra-parameters>><<parameters.extra-parameters>><</parameters.extra-parameters>>
