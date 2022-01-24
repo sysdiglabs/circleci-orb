@@ -6,7 +6,8 @@ parameters:
     type: string
   sysdig-secure-token:
     description: API token for Sysdig Scanning auth.
-    type: string
+    type: env_var_name
+    default: SYSDIG_SECURE_TOKEN
   sysdig-secure-url:
     description: 'Sysdig Secure URL (ex: "https://secure-sysdig.com").'
     type: string
@@ -51,13 +52,12 @@ parameters:
   secure-inline-scan-image:
     description: Sysdig Secure Inline Scan image service
     type: string
-    default: quay.io/sysdig/secure-inline-scan:2
+    default: quay.io/sysdig/secure-inline-scan:2.4.5
 
 steps:
   - run:
       name: "Pull Secure Inline Scan image"
       command: docker pull <<parameters.secure-inline-scan-image>>
-
   - when:
       condition:
         equal: [ <<parameters.input-type>>, "pull" ]
@@ -66,7 +66,7 @@ steps:
             name: 'Execute Secure Inline Scan image (mode: "<<parameters.input-type>>")'
             command: >
               docker run -ti --rm
-              -e SYSDIG_API_TOKEN=<<parameters.sysdig-secure-token>>
+              -e SYSDIG_API_TOKEN=${<<parameters.sysdig-secure-token>>}
               <<#parameters.run-as-user>>-u <<parameters.run-as-user>><</parameters.run-as-user>>
               <<#parameters.extra-docker-parameters>><<parameters.extra-docker-parameters>><</parameters.extra-docker-parameters>>
               <<parameters.secure-inline-scan-image>>
@@ -75,7 +75,6 @@ steps:
               <<#parameters.extra-parameters>><<parameters.extra-parameters>><</parameters.extra-parameters>>
               <<parameters.image-tag>>
               <<#parameters.ignore-failed-scan>> || true <</parameters.ignore-failed-scan>>
-
   - when:
       condition:
         equal: [ <<parameters.input-type>>, "docker-daemon" ]
@@ -84,7 +83,7 @@ steps:
             name: 'Execute Secure Inline Scan image (mode: "<<parameters.input-type>>")'
             command: >
               docker run -ti --rm
-              -e SYSDIG_API_TOKEN=<<parameters.sysdig-secure-token>>
+              -e SYSDIG_API_TOKEN=${<<parameters.sysdig-secure-token>>}
               <<#parameters.run-as-user>>-u <<parameters.run-as-user>><</parameters.run-as-user>>
               <<#parameters.input-path>>-v <<parameters.input-path>>:/var/run/docker.sock<</parameters.input-path>>
               <<^parameters.input-path>>-v /var/run/docker.sock:/var/run/docker.sock<</parameters.input-path>>

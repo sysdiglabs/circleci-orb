@@ -28,7 +28,7 @@ jobs:
       - setup_remote_docker
       - sysdig/inline-image-scan:
           image-tag: alpine:latest
-          sysdig-secure-token: ${SECURE_API_TOKEN}
+          sysdig-secure-token: SECURE_API_TOKEN
 
   test-inline-image-created:
     docker:
@@ -40,7 +40,7 @@ jobs:
       - run: docker tag alpine:latest image-just-being-created:some-tag
       - sysdig/inline-image-scan:
           image-tag: image-just-being-created:some-tag
-          sysdig-secure-token: ${SECURE_API_TOKEN}
+          sysdig-secure-token: SECURE_API_TOKEN
           input-type: docker-daemon
 
 workflows:
