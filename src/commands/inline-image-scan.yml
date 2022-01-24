@@ -84,7 +84,6 @@ steps:
       condition:
         equal: [ <<parameters.input-type>>, "docker-daemon" ]
       steps:
-        - setup_remote_docker
         - run:
             name: 'Execute Secure Inline Scan image (mode: "<<parameters.input-type>>")'
             command: >
