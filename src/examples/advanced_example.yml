@@ -17,7 +17,7 @@ usage:
         - run:
             name: Build Docker image
             command: docker build -t ${IMAGE_TO_BUILD} .
-        - sysdig/lse-image-scan:
+        - sysdig/inline-image-scan:
             image-tag: ${IMAGE_TO_BUILD}
             input-type: docker-daemon
             sysdig-secure-token: SECURE_API_TOKEN
