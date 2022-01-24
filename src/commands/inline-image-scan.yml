@@ -57,8 +57,7 @@ parameters:
 steps:
   - run:
       name: "Pull Secure Inline Scan image"
-      command: docker pull <<parameters.secure-inline-scan-image>>
-      
+      command: docker pull <<parameters.secure-inline-scan-image>>      
   - when:
       condition:
         equal: [ <<parameters.input-type>>, "pull" ]
@@ -76,7 +75,6 @@ steps:
               <<#parameters.extra-parameters>><<parameters.extra-parameters>><</parameters.extra-parameters>>
               <<parameters.image-tag>>
               <<#parameters.ignore-failed-scan>> || true <</parameters.ignore-failed-scan>>
-
   - when:
       condition:
         equal: [ <<parameters.input-type>>, "docker-daemon" ]
