@@ -133,7 +133,7 @@ Full reference docs https://circleci.com/orbs/registry/orb/sysdig/sysdig
 | extra-docker-parameters  | Additional parameters added to the docker command when executing the secure-inline-scan container execution. | no       | ""                                  | string  |
 | secure-inline-scan-image | Sysdig Secure Inline Scan image service                                                                      | no       | quay.io/sysdig/secure-inline-scan:2 | string  |
 
-## Screenshots
+## Screenshots 
 
 ### Image pulled and scanned
 
