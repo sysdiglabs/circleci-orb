@@ -12,7 +12,8 @@ usage:
       docker:
         - image: cimg/base:stable
       steps:
-        - setup_remote_docker
+        - setup_remote_docker:
+            version: 19.03.13
         - sysdig/inline-image-scan:
             image-tag: ${IMAGE_TO_PULL_AND_SCAN}
             sysdig-secure-token: SECURE_API_TOKEN
