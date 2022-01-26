@@ -25,7 +25,8 @@ jobs:
       - image: cimg/base:stable
     steps:
       - checkout
-      - setup_remote_docker
+      - setup_remote_docker:
+          version: 19.03.13
       - sysdig/inline-image-scan:
           image-tag: alpine:latest
           sysdig-secure-token: SECURE_API_TOKEN
@@ -35,7 +36,8 @@ jobs:
       - image: cimg/base:stable
     steps:
       - checkout
-      - setup_remote_docker
+      - setup_remote_docker:
+          version: 19.03.13
       - run: docker pull alpine:latest
       - run: docker tag alpine:latest image-just-being-created:some-tag
       - sysdig/inline-image-scan:
