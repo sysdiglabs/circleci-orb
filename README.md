@@ -24,7 +24,7 @@ Image scanning can detect problems like:
 One of the unique benefits of Sysdig Secure Inline Scanning is that only the results will be sent to the Sysdig Secure
 backend, where you can review them and have a full tracking of vulnerabilities and configuration checks. Sysdig’s
 backend is available as SaaS or air-gapped in your own environment. With this approach, you won’t lose control over your
-images as they don’t need to be sent to the backend or exposed to any staging repository.
+images as they don’t need to be sent outside their environment or exposed to any staging repository.
 
 ## How to use the Sysdig Orb
 
