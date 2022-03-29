@@ -146,3 +146,7 @@ Full reference docs https://circleci.com/orbs/registry/orb/sysdig/sysdig
 ### Scan Results in Sysdig Secure
 
 ![Scan Results in Sysdig Secure](images/image_scanned_in_secure.png)
+
+## Sysdig
+
+![Sysdig Labs](images/sysdig_logo_vertical.png)
